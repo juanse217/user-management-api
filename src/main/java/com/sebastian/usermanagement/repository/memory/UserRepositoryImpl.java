@@ -6,21 +6,25 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.stereotype.Repository;
+
 import com.sebastian.usermanagement.model.User;
 import com.sebastian.usermanagement.repository.UserRepository;
 
+@Repository
 public class UserRepositoryImpl implements UserRepository {
-    private static Long idGenerator = 1l; 
+    private Long idGenerator = 1L; //No need for static since there will be only one instance of my repository (managed by Spring context)
     private final Map<Long, User> users = new HashMap<>();
 
     @Override
-    public Optional<User> save(User user) {
-        if(user.getId() <= 0){
+    public User save(User user) {
+
+        if(user.getId() == null){ //when not created, null by default
             user.setId(idGenerator++);
         }
 
         users.put(user.getId(), user);//Not returning this since returns the previous value associated to the key
-        return Optional.of(user);
+        return user;
     }
 
     @Override
