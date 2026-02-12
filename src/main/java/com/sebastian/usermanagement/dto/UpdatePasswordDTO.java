@@ -1,11 +1,11 @@
 package com.sebastian.usermanagement.dto;
 
 public class UpdatePasswordDTO {
-    private String currentPassword;
-    private String newPassword; 
+    private final String currentPassword;
+    private final String newPassword; 
 
     public UpdatePasswordDTO(){
-
+        this(null, null);
     }
     
     //Testability constructor
@@ -21,17 +21,9 @@ public class UpdatePasswordDTO {
         return currentPassword;
     }
 
-    public void setCurrentPassword(String currentPassword) {
-        this.currentPassword = currentPassword;
-    }
 
     public String getNewPassword() {
         return newPassword;
     }
 
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    
 }

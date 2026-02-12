@@ -3,12 +3,12 @@ package com.sebastian.usermanagement.dto;
 import com.sebastian.usermanagement.model.Role;
 
 public class CreateUserDTO {
-    private String name;
-    private String password;
-    private Role role;
+    private final String name;
+    private final String password;
+    private final Role role;
 
     public CreateUserDTO(){
-
+        this(null, null, null);
     }
 
     //Testability constructor
@@ -25,25 +25,14 @@ public class CreateUserDTO {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    
 }

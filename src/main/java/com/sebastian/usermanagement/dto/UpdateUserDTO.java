@@ -3,11 +3,11 @@ package com.sebastian.usermanagement.dto;
 import com.sebastian.usermanagement.model.Role;
 
 public class UpdateUserDTO {
-    private String name;
-    private Role role;
+    private final String name;
+    private final Role role;
 
     public UpdateUserDTO(){
-
+        this(null,null); //Jackson will be in charge to assign the fields witouth the setters. There are other ways to properly do this with annotations or records. 
     }
 
     //Doing it for manual creation and testing. 
@@ -20,17 +20,11 @@ public class UpdateUserDTO {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Role getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
 
     
 }
