@@ -1,7 +1,7 @@
 package com.sebastian.usermanagement.exception;
 
-public class UserNotfoundException extends RuntimeException{
-    public UserNotfoundException(String msg){
+public class UserNotFoundException extends RuntimeException{
+    public UserNotFoundException(String msg){
         super(msg);
     }
 }
