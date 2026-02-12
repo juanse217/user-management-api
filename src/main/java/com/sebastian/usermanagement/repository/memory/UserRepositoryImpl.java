@@ -1,10 +1,10 @@
 package com.sebastian.usermanagement.repository.memory;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -29,7 +29,16 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public Collection<User> findAll() {
-        return Collections.unmodifiableCollection(users.values());
+        // Return defensive copies. Model class is mutable, so they can acces an item and change it. Best to send copies. 
+        return users.values().stream()
+                .map(this::copyUser)
+                .collect(Collectors.toList());
+    }
+
+    private User copyUser(User original) {
+        User copy = new User(original.getName(), original.getPassword(), original.getRole());
+        copy.setId(original.getId());
+        return copy;
     }
 
     @Override
