@@ -73,6 +73,27 @@ This was a call made because at the moment we applied DDD and let the model have
 ```
 They had the same behavior.
 
+## @RequestHeader instead of @RequestParam
+The first one extracts the information from the headers of the HTTP request (metadata). This makes that the information sent through it, is not saved in the history since it's not in the URL. 
+
+@RequestParam is used for pagination or filter/search, while @RequestHeader works for authentication and passing metadata. 
+
+There are certain conventions: 
+
+**STANDARD IN ALL HTTP REQUESTS:** 
+- Authorization - Authentication tokens
+- Content-Type - Body format
+- Accept - Response format
+- User-Agent - Client info
+
+**CUSTOM HEADERS:**
+The convention is that they start with X-
+- X-User-id
+- X-API-Key
+- X-Custom-Auth
+
+
+
 
 # Through this refactoring, you've learned:
 
@@ -84,8 +105,131 @@ They had the same behavior.
 **Clean Architecture** - Proper layer separation
 
 
-# NEXT STEPS: 
+# 🎯 NEXT STEPS: ROADMAP TO MID-LEVEL
 
-Master testing - Write tests for everything
-Learn Spring Security - Proper authentication/authorization
-Study design patterns - Factory, Strategy, Builder, etc.
+## **Phase 1: Testing (Priority 1 - Start Here)**
+
+### Week 1-2: Core Testing
+1. **Unit Tests**
+   - `User` domain model (validation, behavior methods)
+   - `UserValidator` (all validation methods)
+   - `UserMapper` (DTO conversions)
+   - `UserAuthorization` (authorization logic)
+
+2. **Service Layer Tests (with Mockito)**
+   - `UserService` - mock repository, auth, validator, mapper
+   - Test all CRUD operations
+   - Test authorization scenarios
+
+3. **Integration Tests**
+   - `UserController` with `@WebMvcTest` or `@SpringBootTest`
+   - Test all endpoints with MockMvc
+   - Test error scenarios
+
+**Goal:** 70%+ code coverage
+
+**Resources:**
+- [Baeldung JUnit 5 Guide](https://www.baeldung.com/junit-5)
+- [Mockito Official Docs](https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html)
+- [Spring Boot Testing Guide](https://spring.io/guides/gs/testing-web)
+
+---
+
+## **Phase 2: Exception Handling (Priority 2)**
+
+### Week 2: Global Exception Handler
+1. Create `@RestControllerAdvice` class
+2. Handle `UserNotFoundException` → 404
+3. Handle `UnauthorizedException` → 403
+4. Handle `IllegalArgumentException` → 400
+5. Handle generic `Exception` → 500
+6. Return consistent error response DTO
+
+**Resources:**
+- [Baeldung Exception Handling](https://www.baeldung.com/exception-handling-for-rest-with-spring)
+
+---
+
+## **Phase 3: Bean Validation (Priority 3)**
+
+### Week 3: Add Validation Annotations
+1. Add dependency: `spring-boot-starter-validation`
+2. Annotate DTOs (`@NotNull`, `@NotBlank`, `@Size`, `@Min`)
+3. Add `@Valid` to controller methods
+4. Remove manual validation from `UserValidator`
+5. Keep domain validation in `User` class
+
+**Resources:**
+- [Baeldung Bean Validation](https://www.baeldung.com/javax-validation)
+
+---
+
+## **Phase 4: Spring Security (Priority 4)**
+
+### Week 3-4: JWT Authentication
+1. Add Spring Security dependency
+2. Implement password hashing (BCrypt)
+3. Create login endpoint (returns JWT)
+4. Create JWT utility class (generate/validate tokens)
+5. Create JWT filter (validate tokens on requests)
+6. Replace `X-User-Id` header with `Authorization: Bearer <token>`
+7. Add method security (`@PreAuthorize`)
+
+**Resources:**
+- [Spring Security Official Docs](https://docs.spring.io/spring-security/reference/index.html)
+- [Baeldung Spring Security JWT](https://www.baeldung.com/spring-security-oauth-jwt)
+
+---
+
+## **Phase 5: Design Patterns (Priority 5)**
+
+### Week 4-5: Implement Patterns
+1. **Factory Pattern** - `UserFactory` for creating users
+2. **Strategy Pattern** - Different authorization strategies
+3. **Builder Pattern** - Complex User creation (optional)
+
+**Resources:**
+- [Refactoring Guru](https://refactoring.guru/design-patterns)
+- [Baeldung Design Patterns](https://www.baeldung.com/design-patterns-series)
+
+---
+
+## **Phase 6: API Documentation (Priority 6)**
+
+### Week 5: Swagger/OpenAPI
+1. Add `springdoc-openapi` dependency
+2. Add annotations to controller (`@Operation`, `@ApiResponse`)
+3. Configure Swagger UI
+4. Document all endpoints
+
+**Resources:**
+- [SpringDoc OpenAPI](https://springdoc.org/)
+
+---
+
+## **Phase 7: Pagination & Filtering (Priority 7)**
+
+### Week 6: Advanced Features
+1. Add `Pageable` parameter to `GET /api/users`
+2. Return `Page<UserDTO>` instead of `List<UserDTO>`
+3. Add filtering by role (`?role=ADMIN`)
+4. Add sorting (`?sort=name,asc`)
+
+**Resources:**
+- [Baeldung Pagination](https://www.baeldung.com/spring-data-jpa-pagination-sorting)
+
+---
+
+## **Recommended Implementation Order**
+
+1. ✅ **Testing** (most important, do first)
+2. ✅ **Exception Handling** (quick win, improves testing)
+3. ✅ **Bean Validation** (removes boilerplate)
+4. ✅ **Spring Security** (critical for real apps)
+5. ✅ **Design Patterns** (refactoring exercise)
+6. ✅ **API Documentation** (professional touch)
+7. ✅ **Pagination/Filtering** (nice-to-have)
+
+**Estimated Timeline:** 6-8 weeks total (learning + implementation)
+
+**Start with Phase 1 (Testing) - it's the foundation for everything else!** 🚀
