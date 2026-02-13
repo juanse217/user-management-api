@@ -2,7 +2,6 @@ package com.sebastian.usermanagement.service;
 
 import org.springframework.stereotype.Component;
 
-import com.sebastian.usermanagement.dto.CreateUserDTO;
 import com.sebastian.usermanagement.dto.UpdatePasswordDTO;
 import com.sebastian.usermanagement.dto.UpdateUserDTO;
 
